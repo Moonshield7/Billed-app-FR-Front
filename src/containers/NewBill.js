@@ -17,29 +17,42 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     e.preventDefault()
+    const submitButton = document.getElementById('btn-send-bill')
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
-    formData.append('file', file)
-    formData.append('email', email)
+    // L'ajout d'un fichier au mauvais format provoque une alerte, et le bouton Envoyer disparaît jusqu'à ce qu'un fichier au bon format ait été choisi
+    if(isImage(fileName)){
+      submitButton.style.display = "block";
+      formData.append('file', file)
+      formData.append('email', email)
 
-    this.store
-      .bills()
-      .create({
-        data: formData,
-        headers: {
-          noContentType: true
-        }
-      })
-      .then(({fileUrl, key}) => {
-        console.log(fileUrl)
-        this.billId = key
-        this.fileUrl = fileUrl
-        this.fileName = fileName
-      }).catch(error => console.error(error))
+      this.store
+        .bills()
+        .create({
+          data: formData,
+          headers: {
+            noContentType: true
+          }
+        })
+        .then(({fileUrl, key}) => {
+          console.log(fileUrl)
+          this.billId = key
+          this.fileUrl = fileUrl
+          this.fileName = fileName
+        }).catch(error => console.error(error))
+    } else {
+      alert('Veuillez choisir un fichier jpg, jpeg ou png.')
+      
+      console.log(submitButton)
+      submitButton.style.display = "none";
+    }
   }
+
+  
+
   handleSubmit = e => {
     e.preventDefault()
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
@@ -74,3 +87,23 @@ export default class NewBill {
     }
   }
 }
+
+//fonction type de pièce jointe :
+
+function getExtension(filename) {
+  var parts = filename.split('.');
+  return parts[parts.length - 1];
+}
+
+function isImage(filename) {
+  var ext = getExtension(filename);
+  switch (ext.toLowerCase()) {
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+      //etc
+      return true;
+  }
+  return false;
+}
+
