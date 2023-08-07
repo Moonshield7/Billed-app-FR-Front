@@ -23,6 +23,7 @@ export default class NewBill {
     const fileName = filePath[filePath.length-1]
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
+    
     // L'ajout d'un fichier au mauvais format provoque une alerte, et le bouton Envoyer disparaît jusqu'à ce qu'un fichier au bon format ait été choisi
     if(isImage(fileName)){
       submitButton.style.display = "block";
@@ -38,7 +39,7 @@ export default class NewBill {
           }
         })
         .then(({fileUrl, key}) => {
-          console.log(fileUrl)
+          // console.log(fileUrl)
           this.billId = key
           this.fileUrl = fileUrl
           this.fileName = fileName
@@ -46,7 +47,7 @@ export default class NewBill {
     } else {
       alert('Veuillez choisir un fichier jpg, jpeg ou png.')
       
-      console.log(submitButton)
+      // console.log(submitButton)
       submitButton.style.display = "none";
     }
   }
@@ -55,7 +56,7 @@ export default class NewBill {
 
   handleSubmit = e => {
     e.preventDefault()
-    console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
+    // console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
     const email = JSON.parse(localStorage.getItem("user")).email
     const bill = {
       email,
@@ -75,6 +76,7 @@ export default class NewBill {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.store) {
       this.store
@@ -90,12 +92,12 @@ export default class NewBill {
 
 //fonction type de pièce jointe :
 
-function getExtension(filename) {
+export function getExtension(filename) {
   var parts = filename.split('.');
   return parts[parts.length - 1];
 }
 
-function isImage(filename) {
+export function isImage(filename) {
   var ext = getExtension(filename);
   switch (ext.toLowerCase()) {
     case 'jpg':
