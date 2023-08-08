@@ -1,7 +1,7 @@
 
 export default () => {
 
-  return(`
+  return(/*html*/`
       <div class="page-div">
         <div class="row">
           <div class="title-container"> 

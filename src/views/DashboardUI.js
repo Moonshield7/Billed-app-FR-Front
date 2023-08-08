@@ -13,7 +13,7 @@ export default ({ data, loading, error }) => {
     return ErrorPage(error)
   }
 
-  return (`
+  return (/*html*/`
     <div class='layout'>
       ${VerticalLayout(120)}
       <div class='dashboard-content'>

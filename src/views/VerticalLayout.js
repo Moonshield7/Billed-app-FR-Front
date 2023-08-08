@@ -10,7 +10,7 @@ export default (height) => {
     }
     if (user && user.type === 'Employee') {
       return (
-        `
+        /*html*/`
         <div class='vertical-navbar' style='height: ${height}vh;'>
           <div class='layout-title'> Billed </div>
           <div id='layout-icon1' data-testid="icon-window">
@@ -27,7 +27,7 @@ export default (height) => {
       ) 
     } else {
       return (
-        `
+        /*html*/`
         <div class='vertical-navbar' style='height: ${height}vh;'>
           <div class='layout-title'> Billed </div>
             <div id='layout-disconnect' data-testid='layout-disconnect'>
