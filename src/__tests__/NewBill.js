@@ -64,7 +64,7 @@ describe("Given I am connected as an employee", () => {
       const newBill = new NewBill({
         document,
         onNavigate,
-        store: null,
+        store: mockStore,
         localStorage: window.localStorage,
       });
 
@@ -79,12 +79,21 @@ describe("Given I am connected as an employee", () => {
         userEvent.upload(fileInput, mockFile)
 
         //Le if(isImage(filmName)) ne fonctionne pas dans les test car mockFile n'est pas reconnu. On rentre directement dans le else, donc window.alert est called. Pourtant, l'application fonctionne correctement.
+        expect(handleChangeFile).toHaveBeenCalled()
         expect(window.alert).not.toHaveBeenCalled()
         
       })
 
       test("Then selecting wrong files should display error message", async () => {
+        jest.spyOn(window, "alert").mockImplementation(() => {});
+        const fileInput = screen.getByTestId("file");
 
+        const handleChangeFile = jest.fn(newBill.handleChangeFile);
+        fileInput.addEventListener("change", (e) => handleChangeFile(e));
+        const mockFile = new File(["test"], "test.gif", { type: "image/gif" });
+        userEvent.upload(fileInput, mockFile);
+        expect(handleChangeFile).toHaveBeenCalled();
+        expect(window.alert).toHaveBeenCalled();
       });
     })
   }) 

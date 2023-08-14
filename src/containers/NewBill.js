@@ -19,13 +19,12 @@ export default class NewBill {
     e.preventDefault()
     const submitButton = document.getElementById('btn-send-bill')
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
-    const fileName = filePath[filePath.length-1]
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
     
     // L'ajout d'un fichier au mauvais format provoque une alerte, et le bouton Envoyer disparaît jusqu'à ce qu'un fichier au bon format ait été choisi
-    if(isImage(fileName)){
+    if(isImage(file.name)){
+      console.log("ok")
       submitButton.style.display = "block";
       formData.append('file', file)
       formData.append('email', email)
@@ -42,7 +41,7 @@ export default class NewBill {
           // console.log(fileUrl)
           this.billId = key
           this.fileUrl = fileUrl
-          this.fileName = fileName
+          this.fileName = file.name
         }).catch(error => console.error(error))
     } else {
       alert('Veuillez choisir un fichier jpg, jpeg ou png.')
@@ -99,6 +98,7 @@ export function getExtension(filename) {
 
 export function isImage(filename) {
   var ext = getExtension(filename);
+  // console.log(ext.toLowerCase())
   switch (ext.toLowerCase()) {
     case 'jpg':
     case 'jpeg':
