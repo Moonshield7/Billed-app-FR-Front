@@ -12,7 +12,6 @@ import Bills from "../containers/Bills"
 import {mockedBills} from "../__mocks__/store.js"
 import mockStore from "../__mocks__/store"
 import "bootstrap";
-
 import router from "../app/Router.js";
 import userEvent from "@testing-library/user-event";
 
@@ -35,6 +34,57 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon.classList[0]).toEqual('active-icon');
 
     })
+
+    // Fonction getBills
+    test("Then bills should be displayed", async () => {
+      document.body.innerHTML = BillsUI({ data: bills })
+        const onNavigate = () => {return}
+        Object.defineProperty(window, "localStorage", {
+          value: localStorageMock,
+        });
+        window.localStorage.setItem(
+          "user",
+          JSON.stringify({
+            type: "Employee",
+          })
+        );
+        const store = mockStore;
+
+        // Instanciation de l'objet Bills avec les données mockées
+        const sampleBills = new Bills({document, onNavigate, store, bills, localStorage:window.localStorage});
+
+        // console.log(await sampleBills.getBills())
+        // console.log(await mockedBills.list())
+
+        const enteredData = await mockStore.bills().list();
+        console.log(enteredData)
+
+        const expectedData = [{
+          "id": "47qAXb6fIm2zOKkLzMro",
+          "status": "En attente"
+        },
+          {
+            "id": "BeKy5Mo4jkmdfPGYpTxZ",
+            "status": "Refused"
+          },
+          {
+            "id": "UIUZtnPQvnbFnB0ozvJh",
+            "status": "Accepté"
+          },
+          {
+            "id": "qcCK3SzECmaZAGRrHjaC",
+            "status": "Refused"
+          }]
+
+        const getBillsResult = await sampleBills.getBills();
+        const sanitizedBillsResult = getBillsResult.map(({id, status}) => ({id, status }))
+        console.log(getBillsResult.map(({id, status}) => ({id, status })))
+
+        expect(sanitizedBillsResult).toEqual(expectedData)
+        
+      
+    })
+
     test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({ data: bills })
       const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
@@ -108,7 +158,7 @@ describe("Given I am connected as an employee", () => {
         // Timer permettant d'attendre que la modale apparaisse
         let i = 0;
         while (!modalFile.classList.contains("show") && i < 9) {
-          await new Promise((r) => setTimeout(r, 500));
+          await new Promise((r) => setTimeout(r, 100));
           if(!modalFile.classList.contains("show") && i < 9){
             console.log("modale pas affichée")
             i++;
@@ -116,9 +166,6 @@ describe("Given I am connected as an employee", () => {
           if(!modalFile.classList.contains("show") && i >= 9){
             console.log("modale pas affichée et fin")
           }
-          // if(i === 8){
-          //   modalFile.classList.add('show')
-          // }
           if(modalFile.classList.contains("show")){
             console.log("modale affichée")
             break;

@@ -44,21 +44,6 @@ export const bills = [{
   "fileUrl": "https://test.storage.tld/v0/b/billable-677b6.a…dur.png?alt=media&token=571d34cb-9c8f-430a-af52-66221cae1da3"
 },
 {
-  "id": "UIUZtnPQvnbFnB0ozvJh",
-  "name": "test3",
-  "email": "a@a",
-  "type": "Services en ligne",
-  "vat": "60",
-  "pct": 20,
-  "commentAdmin": "bon bah d'accord",
-  "amount": 300,
-  "status": "accepted",
-  "date": "coucou",
-  "commentary": "",
-  "fileName": "facture-client-php-exportee-dans-document-pdf-enregistre-sur-disque-dur.png",
-  "fileUrl": "https://test.storage.tld/v0/b/billable-677b6.a…dur.png?alt=media&token=571d34cb-9c8f-430a-af52-66221cae1da3"
-},
-{
   "id": "qcCK3SzECmaZAGRrHjaC",
   "status": "refused",
   "pct": 20,
