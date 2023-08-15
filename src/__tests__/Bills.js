@@ -54,7 +54,7 @@ describe("Given I am connected as an employee", () => {
         const sampleBills = new Bills({document, onNavigate, store, bills, localStorage:window.localStorage});
 
         const enteredData = await mockStore.bills().list();
-        console.log(enteredData)
+        // console.log(enteredData)
 
         const expectedData = [{
           "id": "47qAXb6fIm2zOKkLzMro",
@@ -75,7 +75,7 @@ describe("Given I am connected as an employee", () => {
 
         const getBillsResult = await sampleBills.getBills();
         const sanitizedBillsResult = getBillsResult.map(({id, status}) => ({id, status }))
-        console.log(getBillsResult.map(({id, status}) => ({id, status })))
+        // console.log(getBillsResult.map(({id, status}) => ({id, status })))
 
         expect(sanitizedBillsResult).toEqual(expectedData) 
     })
