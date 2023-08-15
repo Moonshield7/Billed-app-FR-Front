@@ -31,7 +31,7 @@ describe("Given I am connected as an employee", () => {
       await waitFor(() => screen.getByTestId('icon-window'))
       const windowIcon = screen.getByTestId('icon-window')
       //to-do write expect expression
-      expect(windowIcon.classList[0]).toEqual('active-icon');
+      expect(windowIcon.classList.contains("active-icon")).toBeTruthy();
 
     })
 
@@ -52,9 +52,6 @@ describe("Given I am connected as an employee", () => {
 
         // Instanciation de l'objet Bills avec les données mockées
         const sampleBills = new Bills({document, onNavigate, store, bills, localStorage:window.localStorage});
-
-        // console.log(await sampleBills.getBills())
-        // console.log(await mockedBills.list())
 
         const enteredData = await mockStore.bills().list();
         console.log(enteredData)
@@ -80,14 +77,12 @@ describe("Given I am connected as an employee", () => {
         const sanitizedBillsResult = getBillsResult.map(({id, status}) => ({id, status }))
         console.log(getBillsResult.map(({id, status}) => ({id, status })))
 
-        expect(sanitizedBillsResult).toEqual(expectedData)
-        
-      
+        expect(sanitizedBillsResult).toEqual(expectedData) 
     })
 
     test("Then bills should be ordered from earliest to latest", () => {
       document.body.innerHTML = BillsUI({ data: bills })
-      const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
+      const dates = screen.getAllByTestId('date_bill').map(a => a.innerHTML)
       const antiChrono = (a, b) => ((a < b) ? 1 : -1)
       const datesSorted = [...dates].sort(antiChrono)
       expect(dates).toEqual(datesSorted)
@@ -159,6 +154,7 @@ describe("Given I am connected as an employee", () => {
         let i = 0;
         while (!modalFile.classList.contains("show") && i < 9) {
           await new Promise((r) => setTimeout(r, 100));
+          // Conditions qui ont permis de comprendre ce qu'il se passait pendant la mise en place du test et de résoudre l'erreur
           if(!modalFile.classList.contains("show") && i < 9){
             console.log("modale pas affichée")
             i++;
@@ -176,11 +172,8 @@ describe("Given I am connected as an employee", () => {
       expect(modalFile).toHaveClass("show");
       })
     })
-  });
-
-  
+  })
 })
-
 
 // test d'intégration GET
 describe("Given I am a user connected as Employee", () => {

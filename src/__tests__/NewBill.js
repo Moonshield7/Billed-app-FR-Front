@@ -78,7 +78,6 @@ describe("Given I am connected as an employee", () => {
 
         userEvent.upload(fileInput, mockFile)
 
-        //Le if(isImage(filmName)) ne fonctionne pas dans les test car mockFile n'est pas reconnu. On rentre directement dans le else, donc window.alert est called. Pourtant, l'application fonctionne correctement.
         expect(handleChangeFile).toHaveBeenCalled()
         expect(window.alert).not.toHaveBeenCalled()
         
